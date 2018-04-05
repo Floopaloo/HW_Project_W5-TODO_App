@@ -3,4 +3,6 @@
     <color name="colorPrimary">#34495e</color>
     <color name="colorPrimaryDark">#2c3e50</color>
     <color name="colorAccent">#f1c40f</color>
+    <color name="silver">#bdc3c7</color>
+    <color name="cloud">#ecf0f1</color>
 </resources>
