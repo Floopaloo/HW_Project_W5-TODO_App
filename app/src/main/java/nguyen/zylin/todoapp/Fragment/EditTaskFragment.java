@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,24 +17,25 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.Toast;
-
-import java.util.Calendar;
 
 import nguyen.zylin.todoapp.Model.TaskModel;
 import nguyen.zylin.todoapp.R;
 
-import static android.content.ContentValues.TAG;
+public class EditTaskFragment extends DialogFragment implements View.OnClickListener {
 
-public class CreateTaskFragment extends DialogFragment implements View.OnClickListener{
-
-    public interface OnCreateTaskListener {
-        void onAddTask(String taskName, String taskDescription, String deadline, int priority);
+    public interface OnEditTaskListener {
+        void onUpdateTask(TaskModel taskModel);
     }
-    OnCreateTaskListener listener;
+    OnEditTaskListener listener;
 
-    public void setOnCreateTaskListener(OnCreateTaskListener listener) {
+    public void setOnCreateTaskListener(OnEditTaskListener listener) {
         this.listener = listener;
+    }
+
+    TaskModel task;
+
+    public void setTask(TaskModel task) {
+        this.task = task;
     }
 
 
@@ -44,6 +43,15 @@ public class CreateTaskFragment extends DialogFragment implements View.OnClickLi
     DatePicker timePicker;
     RadioGroup radioGroup;
     Button btnSave, btnCancel;
+
+    public static EditTaskFragment newInstance(TaskModel item) {
+        EditTaskFragment frag = new EditTaskFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("item", item);
+        frag.setArguments(args);
+        return frag;
+    }
+
 
     @Nullable
     @Override
@@ -54,6 +62,9 @@ public class CreateTaskFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle args = getArguments();
+        task = (TaskModel) args.getSerializable("item");
+
         taskName = view.findViewById(R.id.create_edit_dialog_edt_task_name);
         taskDescription = view.findViewById(R.id.create_edit_dialog_edt_task_description);
         timePicker = view.findViewById(R.id.create_edit_dialog_datePicker);
@@ -62,8 +73,8 @@ public class CreateTaskFragment extends DialogFragment implements View.OnClickLi
         btnSave = view.findViewById(R.id.create_edit_dialog_btn_save); btnSave.setOnClickListener(this);
         btnCancel = view.findViewById(R.id.create_edit_dialog_btn_cancel); btnCancel.setOnClickListener(this);
 
-        setupPriorityRadioBtn();
-        setupDatePicker();
+        setUpContent();
+
     }
 
     @Override
@@ -98,13 +109,22 @@ public class CreateTaskFragment extends DialogFragment implements View.OnClickLi
         super.onResume();
     }
 
+    public void setUpContent() {
+        taskName.setText(task.getTaskName());
+        taskDescription.setText(task.getTaskDescription());
+        taskPriority = task.getTaskPriority();
+        setupPriorityRadioBtn();
+        setupDatePicker();
+    }
+
+
 
     //Create task
     private void createTask() {
         String taskName = this.taskName.getText().toString().trim();
         String taskDescription = this.taskDescription.getText().toString().trim();
         String taskDeadline = (day+"-"+month+"-"+year);
-        listener.onAddTask(taskName,taskDescription,taskDeadline,taskPriority);
+        listener.onUpdateTask(this.task);
     }
 
 
@@ -136,11 +156,8 @@ public class CreateTaskFragment extends DialogFragment implements View.OnClickLi
     private int month;
     private int day;
     private void setupDatePicker(){
-        final Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
-        timePicker.init(year, month, day, notifyTimeChanged);
+        int[] date = parseDate(this.task.getTaskDeadline());
+        timePicker.init(date[2], date[1], date[0], notifyTimeChanged);
     }
     private DatePicker.OnDateChangedListener notifyTimeChanged = new DatePicker.OnDateChangedListener() {
         @Override
@@ -150,5 +167,12 @@ public class CreateTaskFragment extends DialogFragment implements View.OnClickLi
             day = selectedDay;
         }
     };
+
+    private int[] parseDate(String dateString) {
+
+        String[] s = dateString.split("-");
+
+        return new int[]{Integer.valueOf(s[0]), Integer.valueOf(s[1]), Integer.valueOf(s[2])};
+    }
 
 }

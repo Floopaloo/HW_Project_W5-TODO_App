@@ -12,19 +12,29 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import nguyen.zylin.todoapp.Model.TaskModel;
 import nguyen.zylin.todoapp.R;
 
 public class TaskLongClickFragment extends DialogFragment implements View.OnClickListener{
 
     public interface TaskLongClickListener{
-        void okAction();
+        void okAction(TaskModel item);
 
-        void cancelAction();
+        void cancelAction(TaskModel item);
     }
     private TaskLongClickListener listener;
 
+    public void setTaskLongClickListener(TaskLongClickListener listener) {
+        this.listener = listener;
+    }
+
 
     Button btnOK, btnCancel;
+    TaskModel item;
+
+    public void setItem(TaskModel item) {
+        this.item = item;
+    }
 
     public TaskLongClickFragment() {
         this.listener = listener;
@@ -52,12 +62,14 @@ public class TaskLongClickFragment extends DialogFragment implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.delete_task_ok_btn:
-                dismiss();
-                Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
+//                dismiss();
+//                Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
+                listener.okAction(item);
                 break;
             case R.id.delete_task_cancel_btn:
-                dismiss();
-                Toast.makeText(getActivity(), "cancel", Toast.LENGTH_SHORT).show();
+//                dismiss();
+//                Toast.makeText(getActivity(), "cancel", Toast.LENGTH_SHORT).show();
+                listener.cancelAction(item);
                 break;
         }
     }

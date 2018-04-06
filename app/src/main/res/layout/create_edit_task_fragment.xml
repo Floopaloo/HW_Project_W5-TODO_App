@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/cloud"
     android:padding="10dp">
 
     <LinearLayout
@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/cloud"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Task name"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -22,7 +22,8 @@
             android:id="@+id/create_edit_dialog_edt_task_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/cloud"/>
+            android:layout_marginStart="5dp"
+            android:textColor="@color/colorPrimaryDark"/>
 
     </LinearLayout>
     <LinearLayout
@@ -34,7 +35,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/cloud"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Task description"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -42,7 +43,8 @@
         <EditText
             android:id="@+id/create_edit_dialog_edt_task_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"/>
 
     </LinearLayout>
     <LinearLayout
@@ -54,19 +56,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/cloud"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Task description"
             android:textSize="16sp"
             android:textStyle="bold" />
+
         <DatePicker
             android:id="@+id/create_edit_dialog_datePicker"
             style="@android:style/Widget.Holo.DatePicker"
-            android:calendarTextColor="@color/cloud"
-            android:yearListSelectorColor="@color/cloud"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:calendarViewShown="false"/>
+            android:layout_gravity="center"
+            android:calendarTextColor="@color/cloud"
+            android:calendarViewShown="false"
+            android:yearListSelectorColor="@color/cloud" />
 
     </LinearLayout>
     <RelativeLayout
@@ -86,7 +89,7 @@
                 android:id="@+id/create_edit_dialog_rbtn_priority_high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/cloud"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="High"
                 android:layout_marginHorizontal="10dp"
                 android:buttonTint="@color/colorAccent"/>
@@ -95,7 +98,7 @@
                 android:id="@+id/create_edit_dialog_rbtn_priority_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/cloud"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="Normal"
                 android:layout_marginHorizontal="10dp"
                 android:buttonTint="@color/colorAccent"/>
@@ -104,7 +107,7 @@
                 android:id="@+id/create_edit_dialog_rbtn_priority_low"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/cloud"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="Low"
                 android:layout_marginHorizontal="10dp"
                 android:buttonTint="@color/colorAccent"/>
@@ -122,19 +125,24 @@
             android:layout_centerInParent="true">
 
             <Button
-                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/create_edit_dialog_btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/cloud"
-                android:text="cancel"/>
-            <Button
                 style="?android:attr/borderlessButtonStyle"
-                android:id="@+id/create_edit_dialog_btn_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="cancel"
+                android:textColor="@color/cloud"
+                android:background="@drawable/round_btn"/>
+
+            <Button
+                android:id="@+id/create_edit_dialog_btn_save"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="save"
                 android:textColor="@color/colorAccent"
-                android:text="save"/>
+                android:background="@drawable/round_btn"/>
 
         </LinearLayout>
 

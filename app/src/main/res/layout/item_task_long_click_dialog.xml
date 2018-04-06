@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@color/colorPrimary">
+    android:padding="20dp"
+    android:background="@color/cloud">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/cloud"
-        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginBottom="30dp"
         android:text="Delete this task?"
         android:textSize="24sp"
         android:textAlignment="center"/>
@@ -23,12 +23,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginHorizontal="5dp"
+            android:background="@drawable/round_btn"
+            android:textColor="@color/cloud"
             android:text="ok"/>
         <Button
             android:id="@+id/delete_task_cancel_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginHorizontal="5dp"
+            android:background="@drawable/round_btn"
+            android:textColor="@color/cloud"
             android:text="Cancel"/>
 
     </LinearLayout>

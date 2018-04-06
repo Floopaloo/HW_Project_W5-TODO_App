@@ -1,6 +1,10 @@
 package nguyen.zylin.todoapp.Model;
 
-public class TaskModel {
+import java.io.Serializable;
+
+import io.realm.RealmObject;
+
+public class TaskModel extends RealmObject implements Serializable{
 
     public static final int TP_LOW = 1;
     public static final int TP_NORMAL = 2;
@@ -8,12 +12,25 @@ public class TaskModel {
 
     private String taskName, taskDescription, taskDeadline;
     private int taskPriority;
+    private long id;
+    private boolean isDone = false;
+
+    public TaskModel() {
+    }
 
     public TaskModel(String taskName, String taskDescription, String taskDeadline, int taskPriority) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskDeadline = taskDeadline;
         this.taskPriority = taskPriority;
+    }
+
+    public TaskModel( long id, String taskName, String taskDescription, String taskDeadline, int taskPriority) {
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.taskDeadline = taskDeadline;
+        this.taskPriority = taskPriority;
+        this.id = id;
     }
 
     public String getTaskName() {
@@ -46,5 +63,21 @@ public class TaskModel {
 
     public void setTaskPriority(int taskPriority) {
         this.taskPriority = taskPriority;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
     }
 }

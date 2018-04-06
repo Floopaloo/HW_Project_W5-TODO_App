@@ -15,22 +15,33 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import nguyen.zylin.todoapp.Model.TaskModel;
 import nguyen.zylin.todoapp.R;
 
 public class TaskClickFragment extends DialogFragment implements View.OnClickListener{
 
-//    public interface TaskClickListener{
-//        void editAction();
-//
-//        void doneAction();
-//    }
-//    private TaskClickListener listener;
+    public interface TaskClickListener{
+        void editAction(TaskModel item);
+
+        void doneAction(TaskModel item);
+    }
+    private TaskClickListener listener;
+
+    public void setTaskClickListener(TaskClickListener listener) {
+        this.listener = listener;
+    }
 
 
     Button editBtn, doneBtn;
+    TaskModel item;
+
+    public void setItem(TaskModel item) {
+        this.item = item;
+    }
 
     public TaskClickFragment() {
     }
+
 
     @NonNull
     @Override
@@ -54,12 +65,14 @@ public class TaskClickFragment extends DialogFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_edit:
-                dismiss();
-                Toast.makeText(getActivity(), "edit", Toast.LENGTH_SHORT).show();
+//                dismiss();
+//                Toast.makeText(getActivity(), "edit", Toast.LENGTH_SHORT).show();
+                listener.editAction(this.item);
                 break;
             case R.id.btn_done:
-                dismiss();
-                Toast.makeText(getActivity(), "done", Toast.LENGTH_SHORT).show();
+//                dismiss();
+//                Toast.makeText(getActivity(), "done", Toast.LENGTH_SHORT).show();
+                listener.doneAction(this.item);
                 break;
         }
     }
