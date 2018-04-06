@@ -19,18 +19,17 @@ import nguyen.zylin.todoapp.R;
 
 public class TaskClickFragment extends DialogFragment implements View.OnClickListener{
 
-    public interface TaskClickListener{
-        void editAction();
-
-        void doneAction();
-    }
-    private TaskClickListener listener;
+//    public interface TaskClickListener{
+//        void editAction();
+//
+//        void doneAction();
+//    }
+//    private TaskClickListener listener;
 
 
     Button editBtn, doneBtn;
 
     public TaskClickFragment() {
-        this.listener = listener;
     }
 
     @NonNull

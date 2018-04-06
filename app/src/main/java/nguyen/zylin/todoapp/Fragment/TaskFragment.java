@@ -1,5 +1,7 @@
 package nguyen.zylin.todoapp.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,7 +21,8 @@ import nguyen.zylin.todoapp.Adapter.TaskListRecyclerViewAdapter;
 import nguyen.zylin.todoapp.Model.TaskModel;
 import nguyen.zylin.todoapp.R;
 
-public class TaskFragment extends Fragment implements TaskListRecyclerViewAdapter.TaskItemListener{
+public class TaskFragment extends Fragment implements TaskListRecyclerViewAdapter.TaskItemListener,
+        CreateTaskFragment.OnCreateTaskListener{
 
     public TaskFragment() {}
 
@@ -61,7 +64,7 @@ public class TaskFragment extends Fragment implements TaskListRecyclerViewAdapte
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Action add task here
+                createTaskDialog.show(getFragmentManager(),"createTaskDialog");
             }
         });
     }
@@ -74,6 +77,7 @@ public class TaskFragment extends Fragment implements TaskListRecyclerViewAdapte
 
     TaskClickFragment clickDialog = new TaskClickFragment();
     TaskLongClickFragment longClickDialog = new TaskLongClickFragment();
+    CreateTaskFragment createTaskDialog = new CreateTaskFragment();
 
 
     //Item click action
@@ -87,4 +91,33 @@ public class TaskFragment extends Fragment implements TaskListRecyclerViewAdapte
         longClickDialog.show(getFragmentManager(), "taskLongClickDialog");
     }
 
+    //Create task
+    @Override
+    public void onAddTask(String taskName, String taskDescription, String deadline, int priority) {
+
+        if (taskName == null || taskName.isEmpty()) {
+            showWarningDialog("Please type your task name!");
+        } else {
+            taskList.add(new TaskModel(taskName,taskDescription, deadline, priority));
+            Toast.makeText(getActivity(), "Saving here", Toast.LENGTH_SHORT).show();
+            //TODO: call save file here
+        }
+    }
+
+
+
+
+    private void showWarningDialog(String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Alert")
+                .setMessage(msg)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
