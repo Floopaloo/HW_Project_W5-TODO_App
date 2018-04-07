@@ -2,6 +2,7 @@ package nguyen.zylin.todoapp.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -162,17 +163,18 @@ public class TaskFragment extends Fragment implements TaskListRecyclerViewAdapte
         });
     }
 
-    private void updateTask(final TaskModel task) {
+    private void updateTask(long taskId, final String taskName, final String taskDescription,
+                            final String taskDeadline, final int taskPriority) {
         final TaskModel taskUpdate = realm.where(TaskModel.class)
-                .equalTo("id", task.getId())
+                .equalTo("id", taskId)
                 .findFirst();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                taskUpdate.setTaskName(task.getTaskName());
-                taskUpdate.setTaskDescription(task.getTaskDescription());
-                taskUpdate.setTaskDeadline(task.getTaskDeadline());
-                taskUpdate.setTaskPriority(task.getTaskPriority());
+                taskUpdate.setTaskName(taskName);
+                taskUpdate.setTaskDescription(taskDescription);
+                taskUpdate.setTaskDeadline(taskDeadline);
+                taskUpdate.setTaskPriority(taskPriority);
             }
         });
     }
@@ -225,15 +227,17 @@ public class TaskFragment extends Fragment implements TaskListRecyclerViewAdapte
         //TODO: Set task status to done
         makeDoneTask(item.getId());
         reloadTask();
+        Intent intent = new Intent(DoneFragment.DATA_SET_CHANGED);
+        getActivity().sendBroadcast(intent);
     }
 
     @Override
-    public void onUpdateTask(TaskModel taskModel) {
-        if (taskModel.getTaskName() == null || taskModel.getTaskName().isEmpty()) {
+    public void onUpdateTask(long taskID, String taskName, String taskDescription, String taskDeadline, int taskPriority) {
+        if (taskName == null || taskName.isEmpty()) {
             showWarningDialog("Please type your task name!");
         } else {
             //TODO: call save file here
-            updateTask(taskModel);
+            updateTask(taskID, taskName, taskDescription, taskDeadline,taskPriority);
             Toast.makeText(getActivity(), "Saving...", Toast.LENGTH_SHORT).show();
             reloadTask();
         }
@@ -251,4 +255,5 @@ public class TaskFragment extends Fragment implements TaskListRecyclerViewAdapte
     public void cancelAction(TaskModel item) {
         longClickDialog.dismiss();
     }
+
 }

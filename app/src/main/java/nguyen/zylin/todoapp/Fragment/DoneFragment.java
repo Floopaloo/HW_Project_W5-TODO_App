@@ -1,5 +1,9 @@
 package nguyen.zylin.todoapp.Fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +24,10 @@ import nguyen.zylin.todoapp.Adapter.TaskListRecyclerViewAdapter;
 import nguyen.zylin.todoapp.Model.TaskModel;
 import nguyen.zylin.todoapp.R;
 
-public class DoneFragment extends Fragment implements TaskListRecyclerViewAdapter.TaskItemListener{
+public class DoneFragment extends Fragment implements TaskListRecyclerViewAdapter.TaskItemListener {
+
+    public static final String DATA_SET_CHANGED = "data changed";
+    private Radio radio;
 
     View view;
     private RecyclerView recyclerView;
@@ -28,7 +35,8 @@ public class DoneFragment extends Fragment implements TaskListRecyclerViewAdapte
     private List<TaskModel> taskList = new ArrayList<>();
     Realm realm;
 
-    public DoneFragment() {}
+    public DoneFragment() {
+    }
 
     @Nullable
     @Override
@@ -66,16 +74,31 @@ public class DoneFragment extends Fragment implements TaskListRecyclerViewAdapte
         this.taskList.clear();
         this.taskList.addAll(taskList);
     }
-    private void reloadTask() {
+
+    public void reloadTask() {
         RealmResults<TaskModel> taskList =
                 realm.where(TaskModel.class).equalTo("isDone", true).findAll();
         recyclerViewAdapter.setData(taskList);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(DATA_SET_CHANGED);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            getActivity().unregisterReceiver(radio);
+        }catch (Exception e){
+            //Cannot unregister receiver
+        }
+    }
 
-
-///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
     @Override
     public void onItemClick(TaskModel item) {
 
@@ -84,5 +107,16 @@ public class DoneFragment extends Fragment implements TaskListRecyclerViewAdapte
     @Override
     public void onItemLongClick(TaskModel item) {
 
+    }
+
+
+    private class Radio extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(DATA_SET_CHANGED)) {
+                //Notify data set changed here
+                reloadTask();
+            }
+        }
     }
 }

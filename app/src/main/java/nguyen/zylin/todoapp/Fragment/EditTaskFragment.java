@@ -24,7 +24,8 @@ import nguyen.zylin.todoapp.R;
 public class EditTaskFragment extends DialogFragment implements View.OnClickListener {
 
     public interface OnEditTaskListener {
-        void onUpdateTask(TaskModel taskModel);
+        void onUpdateTask(long taskID, String taskName, String taskDescription,
+                          String taskDeadline, int taskPriority);
     }
     OnEditTaskListener listener;
 
@@ -124,7 +125,7 @@ public class EditTaskFragment extends DialogFragment implements View.OnClickList
         String taskName = this.taskName.getText().toString().trim();
         String taskDescription = this.taskDescription.getText().toString().trim();
         String taskDeadline = (day+"-"+month+"-"+year);
-        listener.onUpdateTask(this.task);
+        listener.onUpdateTask(task.getId(), taskName, taskDescription, taskDeadline, taskPriority);
     }
 
 
