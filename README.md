@@ -9,4 +9,4 @@ Phạm Minh Luân	1420213</br>
 Nguyễn Thanh Mến	1420078</p>
 
 Màn hình demo ứng dụng</br>
-![Màn hình demo ứng dụng](https://github.com/cuongurchini/BTVN2/blob/master/exerciseWeek5.gif?raw=true)
+![Màn hình demo ứng dụng](https://github.com/Floopaloo/HW_Project_W5-TODO_App/blob/master/exerciseWeek5.gif)
